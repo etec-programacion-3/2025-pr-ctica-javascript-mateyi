@@ -33,17 +33,42 @@ async function fetchProducts() {
 
 // EJERCICIO: Completa la función para crear un producto usando axios POST
 async function createProduct(name, price, description) {
-  // TODO: Implementa el POST a la API
+  try {
+    const res = await axios.post(BASE_URL, {
+      name,
+      price: parseFloat(price),
+      description
+    });
+
+    console.log('Producto creado:', res.data);
+  } catch (error) {
+    console.error('Error al crear producto:', error);
+    alert('No se pudo crear el producto.');
+  }
 }
 
 // EJERCICIO: Completa la función para eliminar un producto usando axios DELETE
 async function deleteProduct(id) {
-  // TODO: Implementa el DELETE a la API
+  try {
+    await axios.delete(`${BASE_URL}/${id}`);
+    console.log(`Producto con id ${id} eliminado.`);
+  } catch (error) {
+    console.error('Error al eliminar producto:', error);
+    alert('No se pudo eliminar el producto.');
+  }
 }
 
 // EJERCICIO: Completa la función para mostrar detalles usando axios GET /products/:id
 async function showDetails(id) {
-  // TODO: Implementa el GET de detalles y muestra un alert con la info
+  try {
+    const res = await axios.get(`${BASE_URL}/${id}`);
+    const product = res.data;
+
+    alert(`Producto: ${product.name}\nPrecio: $${product.price}\nDescripción: ${product.description}`);
+  } catch (error) {
+    console.error('Error al obtener detalles:', error);
+    alert('No se pudo mostrar los detalles del producto.');
+  }
 }
 
 // Maneja el submit del formulario para crear un producto

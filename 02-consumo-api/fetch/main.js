@@ -30,20 +30,66 @@ async function fetchProducts() {
 // EJERCICIO 1: Crear producto
 // Completa esta función para enviar los datos del formulario usando fetch POST
 async function createProduct(name, price, description) {
-  // Tu código aquí
+  try{
+    const res = await fetch(BASE_URL, {
+      method: 'POST',
+      headers :{ 
+       'Content-Type' : 'application/json'
+    },
+    body: JSON.stringify({
+      name: name,
+      price: parseFloat(price),
+      description: description
+      })
+    });
+    
+    if (!res.ok) {
+      throw new Error('Error al crear el producto');
+    }
+
+    const data = await res.json();
+    console.log('Producto creado:', data);
+
+  }catch(error){
+    console.error('Error al crear el producto',error);
+  };
+  
 }
 
 // EJERCICIO 2: Eliminar producto
 // Completa esta función para eliminar un producto usando fetch DELETE
 async function deleteProduct(id) {
-  // Tu código aquí
+    try {
+    const res = await fetch(`${BASE_URL}/${id}`, {
+      method: 'DELETE'
+    });
+
+    if (!res.ok) {
+      throw new Error('Error al eliminar el producto');
+    }
+
+    console.log(`Producto con id ${id} eliminado.`);
+  } catch (error) {
+    console.error('Error al eliminar producto:', error);
+  }
 }
 
 // EJERCICIO 3: Ver detalles de producto
 // Completa esta función para mostrar detalles usando fetch GET /products/:id
 async function showDetails(id) {
-  // Tu código aquí
+  try {
+    const res = await fetch(`${BASE_URL}/${id}`);
+    if (!res.ok) {
+      throw new Error('No se pudo obtener el producto');
+    }
+    const product = await res.json();
+    alert(`Producto: ${product.name}\nPrecio: $${product.price}\nDescripción: ${product.description}`);
+  } catch (error) {
+    console.error('Error al obtener detalles:', error);
+  }
 }
+
+
 
 // Maneja el submit del formulario para crear un producto
 form.onsubmit = async e => {

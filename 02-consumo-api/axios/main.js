@@ -34,19 +34,44 @@ async function fetchProducts() {
 // EJERCICIO 1: Crear producto
 // Completa esta función para enviar los datos del formulario usando axios POST
 async function createProduct(name, price, description) {
-  // Tu código aquí
+  try {
+    const res = await axios.post(BASE_URL, {
+      name,
+      price: parseFloat(price),
+      description
+    });
+
+    console.log('Producto creado:', res.data);
+  } catch (error) {
+    console.error('Error al crear producto:', error);
+    alert('No se pudo crear el producto.');
+  }
 }
 
 // EJERCICIO 2: Eliminar producto
 // Completa esta función para eliminar un producto usando axios DELETE
 async function deleteProduct(id) {
-  // Tu código aquí
+  try {
+    await axios.delete(`${BASE_URL}/${id}`);
+    console.log(`Producto con id ${id} eliminado.`);
+  } catch (error) {
+    console.error('Error al eliminar producto:', error);
+    alert('No se pudo eliminar el producto.');
+  }
 }
 
 // EJERCICIO 3: Ver detalles de producto
 // Completa esta función para mostrar detalles usando axios GET /products/:id
 async function showDetails(id) {
-  // Tu código aquí
+    try {
+    const res = await axios.get(`${BASE_URL}/${id}`);
+    const product = res.data;
+
+    alert(`Producto: ${product.name}\nPrecio: $${product.price}\nDescripción: ${product.description}`);
+  } catch (error) {
+    console.error('Error al obtener detalles:', error);
+    alert('No se pudo mostrar los detalles del producto.');
+  }
 }
 
 // Maneja el submit del formulario para crear un producto
